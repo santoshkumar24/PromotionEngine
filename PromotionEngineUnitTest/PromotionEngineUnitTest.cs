@@ -127,39 +127,5 @@ namespace PromotionEngineUnitTest
             Assert.AreEqual(280, result);
         }
 
-        [TestMethod]
-        public void TestScenario_Fail()
-        {
-            try
-            {
-                //Arrange
-                _SKUCart.AddProductToCart('A');
-                _SKUCart.AddProductToCart('A');
-                _SKUCart.AddProductToCart('A');
-
-
-
-                _SKUCart.AddProductToCart('B');
-                _SKUCart.AddProductToCart('B');
-                _SKUCart.AddProductToCart('B');
-                _SKUCart.AddProductToCart('B');
-                _SKUCart.AddProductToCart('B');
-
-                _SKUCart.AddProductToCart('C');
-
-                _SKUCart.AddProductToCart('D');
-                _SKUCart.AddProductToCart('E');
-
-                //Act
-
-                var result = _orderCalculator.Calculate(_SKUCart);
-                Assert.Fail("No exception was thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail("BadInput", ex.Message);
-            }
-
-        }
     }
 }
