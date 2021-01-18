@@ -77,10 +77,10 @@ namespace PromotionEngineService
 
 
             }
-            return totalPrice;
-
-
-
+            if (!IsComboRule)
+                return totalPrice;
+            else
+                return caluculateComboRule(totalPrice, priceOfEachItem);
         }
 
 
@@ -97,6 +97,33 @@ namespace PromotionEngineService
            return  false;
         }
 
-        
+
+        private double caluculateComboRule(double totalPrice, IDictionary<char, double> priceOfEachItem)
+        {
+
+            //combo rule calculation
+
+            //iterating new combo all the combo rules
+            foreach (var item in PromotionRule._comboRules)
+            {
+                //calculating comborule and adding into its price
+                while (_purchasedProductWithCount[item.Item1] != 0 && _purchasedProductWithCount[item.Item2] != 0)
+                {
+                    totalPrice += item.Item3;
+                    _purchasedProductWithCount[item.Item1]--;
+                    _purchasedProductWithCount[item.Item2]--;
+                }
+
+                //calculating individual price of it
+                if (_purchasedProductWithCount[item.Item1] != 0)
+                    totalPrice += _purchasedProductWithCount[item.Item1] * priceOfEachItem[item.Item1];
+
+                if (_purchasedProductWithCount[item.Item2] != 0)
+                    totalPrice += _purchasedProductWithCount[item.Item2] * priceOfEachItem[item.Item2];
+            }
+
+            return totalPrice;
+        }
+
     }
 }

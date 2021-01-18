@@ -32,14 +32,10 @@ namespace PromotionEngineUnitTest
             _rules.Add('B', new Tuple<int, double>(2, 45));
 
             _comboRules = new List<Tuple<char, char, double>>();
-
-
+            _comboRules.Add(new Tuple<char, char, double>('C', 'D', 30));
 
             //Adding combo Rule
             _promotionRule = new PromotionRule(_rules, _comboRules);
-
-
-
 
             //Master Data section
             productWithPrice = new Dictionary<char, double>();
@@ -47,8 +43,6 @@ namespace PromotionEngineUnitTest
             productWithPrice.Add('B', 30);
             productWithPrice.Add('C', 20);
             productWithPrice.Add('D', 15);
-
-
 
             _SKUCart = new SKUCart(productWithPrice);
 
@@ -101,6 +95,36 @@ namespace PromotionEngineUnitTest
 
             //Assert
             Assert.AreEqual(370, result);
+        }
+
+        [TestMethod]
+        public void TestScenario_C()
+        {
+
+            //Arrange
+            _SKUCart.AddProductToCart('A');
+            _SKUCart.AddProductToCart('A');
+            _SKUCart.AddProductToCart('A');
+
+
+
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+
+            _SKUCart.AddProductToCart('C');
+
+            _SKUCart.AddProductToCart('D');
+
+            //Act
+
+            var result = _orderCalculator.Calculate(_SKUCart);
+
+            //Assert
+
+            Assert.AreEqual(280, result);
         }
     }
 }
