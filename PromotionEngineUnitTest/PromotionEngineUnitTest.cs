@@ -33,6 +33,8 @@ namespace PromotionEngineUnitTest
 
             _comboRules = new List<Tuple<char, char, double>>();
 
+
+
             //Adding combo Rule
             _promotionRule = new PromotionRule(_rules, _comboRules);
 
@@ -71,6 +73,34 @@ namespace PromotionEngineUnitTest
 
             //Assert
             Assert.AreEqual(100, result);
+        }
+
+        [TestMethod]
+        public void TestScenario_B()
+        {
+
+            //Arrange
+            _SKUCart.AddProductToCart('A');
+            _SKUCart.AddProductToCart('A');
+            _SKUCart.AddProductToCart('A');
+            _SKUCart.AddProductToCart('A');
+            _SKUCart.AddProductToCart('A');
+
+
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+            _SKUCart.AddProductToCart('B');
+
+            _SKUCart.AddProductToCart('C');
+
+            //Act
+
+            var result = _orderCalculator.Calculate(_SKUCart);
+
+            //Assert
+            Assert.AreEqual(370, result);
         }
     }
 }
